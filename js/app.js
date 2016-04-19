@@ -75,12 +75,16 @@ var getUnanswered = function(tags) {
 			$('.results').append(question);
 		});
 	})
+
 	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
 		var errorElem = showError(error);
 		$('.search-results').append(errorElem);
 	});
 };
 
+var getInspiration = function() {
+
+	};
 
 $(document).ready( function() {
 	$('.unanswered-getter').submit( function(e){
@@ -90,5 +94,9 @@ $(document).ready( function() {
 		// get the value of the tags the user submitted
 		var tags = $(this).find("input[name='tags']").val();
 		getUnanswered(tags);
+	});
+
+	$('.inspiration-getter').submit(function() {
+
 	});
 });
