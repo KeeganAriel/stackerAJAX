@@ -83,7 +83,10 @@ var getUnanswered = function(tags) {
 };
 
 var getInspiration = function() {
-
+	$.ajax({
+		url: "http://api.stackexchange.com/2.2/tags/{tag}/top-answerers/all_time?site=stackoverflow"
+		
+	});
 	};
 
 $(document).ready( function() {
@@ -96,7 +99,7 @@ $(document).ready( function() {
 		getUnanswered(tags);
 	});
 
-	$('.inspiration-getter').submit(function() {
-
+	$('.inspiration-getter').submit(function(e) {
+		e.preventDefault();
 	});
 });
