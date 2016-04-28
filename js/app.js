@@ -31,8 +31,27 @@ var showQuestion = function(question) {
 	return result;
 };
 
-var showTopUsersSearch = function(topUsers) {
+var showTopUsersSearch = function(topUser) {
+	var result = $('.templates .answerer').clone();
 
+	// var userNameElem = result.find('.user-name');
+	// userNameElem.text(topUser.user.display_name);
+
+	var userNameElem = result.find('.name');
+	userNameElem.html('<a target="_blank" '+
+		'href=http://stackoverflow.com/users/' + topUser.user.user_id + ' >' +
+		topUser.user.display_name + '</a>' 
+
+		// '<p>Post Count: ' + topUser.post_count + '</p>'
+	);
+
+	var userRep = result.find('.rep');
+	userRep.text(topUser.user.reputation);
+
+	var postCount = result.find('.post-count');
+	postCount.text(topUser.post_count);
+
+	return result;
 };
 
 
@@ -74,6 +93,7 @@ var getUnanswered = function(tags) {
 		type: "GET",
 	})
 	.done(function(result){ //this waits for the ajax to return with a succesful promise object
+		console.log(result);
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
 		$('.search-results').html(searchResults);
@@ -93,24 +113,22 @@ var getUnanswered = function(tags) {
 
 var getInspiration = function(tag) {
 	var parms = {
-		tag: tag,
-		site: "stackoverflow",
-		period: 'all_time',
-
+		site: "stackoverflow"
 	};
 
 	$.ajax({
-		url: "http://api.stackexchange.com/2.2/tags/{tag}/top-answerers/all_time?site=stackoverflow",
+		url: "http://api.stackexchange.com/2.2/tags/"+ tag +"/top-answerers/all_time",
 		data: parms,
 		dataType: "jsonp",
 		type: "GET",
 	})
-	.done(function(i, item) {
-		var topAnswerers = showTopAnswerers(top-answerers, result.items.length);
+	.done(function(data) {
+		console.log(data);
+		var topAnswerers = showTopAnswerers(tag, data.items.length);
 		$('.search-results').html(topAnswerers);
-		$.each(result.items , function(i, item) {
+		$.each(data.items , function(i, item) {
 			var topUsers  = showTopUsersSearch(item);
-			$('results').append(topUsers);
+			$('.results').append(topUsers);
 		});
 	})
 
@@ -137,4 +155,14 @@ $(document).ready( function() {
 		getInspiration(tag);
 
 	});
+
+	// $('.inspiration-getter').submit(function (e) {
+	// 	e.preventDefault();
+	// 	// clears out previous search results
+	// 	$('.results').html('');
+	// 	// get value of tags user submitted
+	// 	var tags = $(this).find("input[name='answerers']").val();
+	// 	getUnanswered(tags);
+	// });
+
 });
