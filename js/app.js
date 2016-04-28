@@ -31,10 +31,38 @@ var showQuestion = function(question) {
 	return result;
 };
 
+var showTopUsersSearch = function(topUser) {
+	var result = $('.templates .answerer').clone();
+
+	// var userNameElem = result.find('.user-name');
+	// userNameElem.text(topUser.user.display_name);
+
+	var userNameElem = result.find('.name');
+	userNameElem.html('<a target="_blank" '+
+		'href=http://stackoverflow.com/users/' + topUser.user.user_id + ' >' +
+		topUser.user.display_name + '</a>' 
+
+		// '<p>Post Count: ' + topUser.post_count + '</p>'
+	);
+
+	var userRep = result.find('.rep');
+	userRep.text(topUser.user.reputation);
+
+	var postCount = result.find('.post-count');
+	postCount.text(topUser.post_count);
+
+	return result;
+};
+
 
 // this function takes the results object from StackOverflow
 // and returns the number of results and tags to be appended to DOM
 var showSearchResults = function(query, resultNum) {
+	var results = resultNum + ' results for <strong>' + query + '</strong>';
+	return results;
+};
+
+var showTopAnswerers = function (query, resultNum) {
 	var results = resultNum + ' results for <strong>' + query + '</strong>';
 	return results;
 };
@@ -65,6 +93,7 @@ var getUnanswered = function(tags) {
 		type: "GET",
 	})
 	.done(function(result){ //this waits for the ajax to return with a succesful promise object
+		console.log(result);
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
 		$('.search-results').html(searchResults);
@@ -75,12 +104,39 @@ var getUnanswered = function(tags) {
 			$('.results').append(question);
 		});
 	})
+
 	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
 		var errorElem = showError(error);
 		$('.search-results').append(errorElem);
 	});
 };
 
+var getInspiration = function(tag) {
+	var parms = {
+		site: "stackoverflow"
+	};
+
+	$.ajax({
+		url: "http://api.stackexchange.com/2.2/tags/"+ tag +"/top-answerers/all_time",
+		data: parms,
+		dataType: "jsonp",
+		type: "GET",
+	})
+	.done(function(data) {
+		console.log(data);
+		var topAnswerers = showTopAnswerers(tag, data.items.length);
+		$('.search-results').html(topAnswerers);
+		$.each(data.items , function(i, item) {
+			var topUsers  = showTopUsersSearch(item);
+			$('.results').append(topUsers);
+		});
+	})
+
+	.fail(function(jqXHR, error){ 
+		var errorElem = showError(error);
+		$('.search-results').append(errorElem);
+	});
+	};
 
 $(document).ready( function() {
 	$('.unanswered-getter').submit( function(e){
@@ -91,4 +147,22 @@ $(document).ready( function() {
 		var tags = $(this).find("input[name='tags']").val();
 		getUnanswered(tags);
 	});
+
+	$('.inspiration-getter').submit(function(e) {
+		e.preventDefault();
+		$('.results').html('');
+		var tag = $(this).find("input[name='answerers']").val();
+		getInspiration(tag);
+
+	});
+
+	// $('.inspiration-getter').submit(function (e) {
+	// 	e.preventDefault();
+	// 	// clears out previous search results
+	// 	$('.results').html('');
+	// 	// get value of tags user submitted
+	// 	var tags = $(this).find("input[name='answerers']").val();
+	// 	getUnanswered(tags);
+	// });
+
 });
