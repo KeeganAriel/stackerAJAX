@@ -13,6 +13,7 @@
   bottom: 0;
   width: 1em;
 }
+
 .left { 
   left: 0; 
 }
@@ -30,9 +31,11 @@
 .top { 
   top: 0; 
 }
+
 .bottom { 
   bottom: 0; 
 }
+
 .container {
 	margin: 3em auto;
 	width: 600px;
@@ -64,6 +67,10 @@
 
 .stack {
 	clear: both;
+}
+
+.stack h3 {
+	color: dodgerblue;
 }
 
 .inspiration { 
