@@ -1,3 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+
+.top, .bottom, .left, .right {
+  background: #FC9E05;
+  position: fixed;
+}
+
+.left, .right {
+  top: 0; 
+  bottom: 0;
+  width: 1em;
+}
+.left { 
+  left: 0; 
+}
+
+.right { 
+  right: 0; 
+}
+
+.top, .bottom {
+  left: 0; 
+  right: 0;
+  height: 1em;
+}
+
+.top { 
+  top: 0; 
+}
+.bottom { 
+  bottom: 0; 
+}
 .container {
 	margin: 3em auto;
 	width: 600px;
@@ -7,7 +42,7 @@
 	display: none;
 }
 
-.left {
+.stack-image {
 	float: left;
 }
 
@@ -36,9 +71,10 @@
 }
 
 .result {
-	border: 1px solid black;
+	border: 2px solid dodgerblue;
+	border-radius: 10px;
 	padding: 5px;
-	margin: 0 auto 1em auto;
+	margin: 0 auto 2em auto;
 }
 
 .pic {
