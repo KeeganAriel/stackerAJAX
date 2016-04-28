@@ -41,6 +41,15 @@
 	margin: 0 auto 1em auto;
 }
 
+.pic {
+	float: right;
+}
+
+.search-results {
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
+
 .error {
 	background-color: #F78181;
 	padding: 1em;

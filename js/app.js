@@ -34,15 +34,13 @@ var showQuestion = function(question) {
 var showTopUsersSearch = function(topUser) {
 	var result = $('.templates .answerer').clone();
 
-	// var userNameElem = result.find('.user-name');
-	// userNameElem.text(topUser.user.display_name);
+	var proPic = result.find('.pic');
+	proPic.html('<img src="'+ topUser.user.profile_image +'" height="60px" width="60px">');
 
 	var userNameElem = result.find('.name');
 	userNameElem.html('<a target="_blank" '+
 		'href=http://stackoverflow.com/users/' + topUser.user.user_id + ' >' +
 		topUser.user.display_name + '</a>' 
-
-		// '<p>Post Count: ' + topUser.post_count + '</p>'
 	);
 
 	var userRep = result.find('.rep');
