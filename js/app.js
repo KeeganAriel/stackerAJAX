@@ -154,13 +154,6 @@ $(document).ready( function() {
 
 	});
 
-	// $('.inspiration-getter').submit(function (e) {
-	// 	e.preventDefault();
-	// 	// clears out previous search results
-	// 	$('.results').html('');
-	// 	// get value of tags user submitted
-	// 	var tags = $(this).find("input[name='answerers']").val();
-	// 	getUnanswered(tags);
-	// });
+
 
 });
